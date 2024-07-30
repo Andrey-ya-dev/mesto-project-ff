@@ -33,8 +33,6 @@ export function createCard(
 
 // Удаление карточки
 export function removeCard(element) {
-  console.log("removeFn atach");
-
   if (element) {
     element.remove();
   }
@@ -42,8 +40,6 @@ export function removeCard(element) {
 
 // Лайк карточки
 export function likeCard(element) {
-  console.log("likeFn atach");
-
   if (element) {
     element.classList.toggle("card__like-button_is-active");
   }

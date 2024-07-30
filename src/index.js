@@ -106,8 +106,6 @@ addCardform.addEventListener("submit", handleAddCardForm);
 // Добавление слушателя для изображения
 function addListenerToImage(imgEl, cardData) {
   imgEl.addEventListener("click", function () {
-    console.log("img click atach");
-
     document.querySelector(".popup__image").setAttribute("src", cardData.link);
     document.querySelector(".popup__image").setAttribute("alt", cardData.name);
     document.querySelector(".popup__caption").textContent = cardData.name;
