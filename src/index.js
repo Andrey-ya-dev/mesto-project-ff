@@ -20,6 +20,10 @@ const editform = document.querySelector(".popup_type_edit .popup__form");
 const nameInput = editform.querySelector(".popup__input_type_name");
 const jobInput = editform.querySelector(".popup__input_type_description");
 
+// Поля для отображения профиля имя, занятие
+const popupImage = document.querySelector(".popup__image");
+const popupCaption = document.querySelector(".popup__caption");
+
 // Форма для добавления карточки и поля формы
 const addCardform = document.querySelector(".popup_type_new-card .popup__form");
 const cardNameInput = addCardform.querySelector(".popup__input_type_card-name");
@@ -33,6 +37,54 @@ const addCardBtn = document.querySelector(".profile__add-button");
 const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
 const imgPopup = document.querySelector(".popup.popup_type_image");
+
+// Открытие модального окна с изображением
+function openImgPopup(cardData) {
+  popupImage.setAttribute("src", cardData.link);
+  popupImage.setAttribute("alt", cardData.name);
+  popupCaption.textContent = cardData.name;
+
+  openModal(imgPopup);
+}
+
+// Слушатель на форму редактирования для изменения профиля
+function handleProfileEditForm(evt) {
+  evt.preventDefault();
+
+  const jobValue = jobInput.value;
+  const nameValue = nameInput.value;
+
+  if (jobValue && nameValue) {
+    profileTitle.textContent = nameValue;
+    profileDescription.textContent = jobValue;
+
+    closeModal(profilePopup);
+  }
+}
+
+// Слушатель на форму добавления карточки
+function handleAddCardForm(evt) {
+  evt.preventDefault();
+
+  const cardNameValue = cardNameInput.value;
+  const cardLinkValue = cardLinkInput.value;
+
+  if (cardLinkValue && cardNameValue) {
+    const newCardData = { name: cardNameValue, link: cardLinkValue };
+    const newCard = createCard(
+      newCardData,
+      cardTemplate,
+      removeCard,
+      likeCard,
+      openImgPopup
+    );
+
+    cardList.insertAdjacentElement("afterbegin", newCard);
+
+    closeModal(addCardPopup);
+    addCardform.reset();
+  }
+}
 
 // Слушатели событий на модальных окнах
 profilePopup.addEventListener("click", function (evt) {
@@ -55,64 +107,14 @@ profileBtn.addEventListener("click", function () {
   nameInput.value = profileName;
   jobInput.value = profileJob;
 });
+
 // Слушатель событий для открыти модального окна, добавления карточки
 addCardBtn.addEventListener("click", function () {
   openModal(addCardPopup);
 });
 
-// Слушатель на форму редактирования для изменения профиля
-function handleEditForm(evt) {
-  evt.preventDefault();
-
-  const jobValue = jobInput.value;
-  const nameValue = nameInput.value;
-
-  if (jobValue && nameValue) {
-    document.querySelector(".profile__title").textContent = nameValue;
-    document.querySelector(".profile__description").textContent = jobValue;
-
-    closeModal(profilePopup);
-  }
-}
-
-// Слушатель на форму добавления карточки
-function handleAddCardForm(evt) {
-  evt.preventDefault();
-
-  const cardNameValue = cardNameInput.value;
-  const cardLinkValue = cardLinkInput.value;
-
-  if (cardLinkValue && cardNameValue) {
-    const newCardData = { name: cardNameValue, link: cardLinkValue };
-    initialCards.unshift(newCardData);
-    const newCard = createCard(
-      newCardData,
-      cardTemplate,
-      removeCard,
-      likeCard,
-      addListenerToImage
-    );
-
-    cardList.insertAdjacentElement("afterbegin", newCard);
-
-    closeModal(addCardPopup);
-    addCardform.reset();
-  }
-}
-
-editform.addEventListener("submit", handleEditForm);
+editform.addEventListener("submit", handleProfileEditForm);
 addCardform.addEventListener("submit", handleAddCardForm);
-
-// Добавление слушателя для изображения
-function addListenerToImage(imgEl, cardData) {
-  imgEl.addEventListener("click", function () {
-    document.querySelector(".popup__image").setAttribute("src", cardData.link);
-    document.querySelector(".popup__image").setAttribute("alt", cardData.name);
-    document.querySelector(".popup__caption").textContent = cardData.name;
-
-    openModal(imgPopup);
-  });
-}
 
 // Вывод карточек на страницу
 initialCards.forEach((item) => {
@@ -121,7 +123,7 @@ initialCards.forEach((item) => {
     cardTemplate,
     removeCard,
     likeCard,
-    addListenerToImage
+    openImgPopup
   );
   cardList.append(listItem);
 });

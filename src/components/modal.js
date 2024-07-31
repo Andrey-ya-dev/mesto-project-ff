@@ -30,8 +30,7 @@ export function closeModalByPopup(evt, modalEl, closeFn) {
 // Закрыть модальное окно , кнопка ескейп
 function closeModalByKeyboard(evt) {
   if (evt.key === "Escape") {
-    document.querySelectorAll(".popup").forEach((popup) => {
-      popup.classList.remove("popup_is-opened");
-    });
+    const popup = document.querySelector(".popup.popup_is-opened");
+    closeModal(popup);
   }
 }

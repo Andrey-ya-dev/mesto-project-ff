@@ -4,7 +4,7 @@ export function createCard(
   template,
   removeFn,
   likeFn,
-  addImgListenerFn
+  openImgPopupFn
 ) {
   if (template) {
     const listItem = template.querySelector(".card").cloneNode(true);
@@ -16,7 +16,9 @@ export function createCard(
     cardImg.setAttribute("src", cardData.link);
     cardImg.setAttribute("alt", cardData.name);
 
-    addImgListenerFn(cardImg, cardData);
+    cardImg.addEventListener("click", function () {
+      openImgPopupFn(cardData);
+    });
 
     listItem.querySelector(".card__title").textContent = cardData.name;
 
