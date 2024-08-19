@@ -3,6 +3,17 @@ import "./pages/index.css";
 import { initialCards } from "./scripts/cards";
 import { createCard, removeCard, likeCard } from "./components/card";
 import { closeModal, openModal, closeModalByPopup } from "./components/modal";
+import { enableValidation, clearValidation } from "./scripts/validation";
+
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  errorMessageSelector: ".popup__err-msg",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 // Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
@@ -59,6 +70,7 @@ function handleProfileEditForm(evt) {
     profileDescription.textContent = jobValue;
 
     closeModal(profilePopup);
+    clearValidation(editform, validationConfig);
   }
 }
 
@@ -83,12 +95,14 @@ function handleAddCardForm(evt) {
 
     closeModal(addCardPopup);
     addCardform.reset();
+    clearValidation(addCardform, validationConfig);
   }
 }
 
 // Слушатели событий на модальных окнах
 profilePopup.addEventListener("click", function (evt) {
   closeModalByPopup(evt, profilePopup, closeModal);
+  clearValidation(editform, validationConfig);
 });
 addCardPopup.addEventListener("click", function (evt) {
   closeModalByPopup(evt, addCardPopup, closeModal);
@@ -127,3 +141,5 @@ initialCards.forEach((item) => {
   );
   cardList.append(listItem);
 });
+
+enableValidation(validationConfig);

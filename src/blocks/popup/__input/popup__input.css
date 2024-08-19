@@ -1,8 +1,28 @@
+.popup__label {
+  position: relative;
+  display: grid;
+  margin-bottom: 30px;
+}
+
+.popup__err-msg {
+  color: red;
+  font-size: 13px;
+  position: absolute;
+  top: 108%;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+}
+
+.popup__error_visible {
+  opacity: 1;
+}
+
 .popup__input {
   width: 100%;
-  height: 47px;
+  height: 37px;
   border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 14px;
   line-height: 18px;
   box-sizing: border-box;
@@ -10,8 +30,13 @@
   margin-bottom: 10px;
 }
 
-.popup__input:last-of-type {
+.popup__input:last-of-type,
+.popup__label:last-of-type {
   margin-bottom: 0;
+}
+
+.popup__input_type_error {
+  border-color: red;
 }
 
 @media screen and (max-width: 568px) {
