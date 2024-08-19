@@ -5,3 +5,11 @@ const config = {
     "Content-Type": "application/json",
   },
 };
+
+const Methods = {
+  post: "POST", // Create
+  get: "GET", // Read
+  put: "PUT", // Update_full
+  patch: "PATCH", // Update
+  remove: "DELETE", // Delete
+};

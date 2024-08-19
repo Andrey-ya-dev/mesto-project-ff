@@ -104,6 +104,12 @@ profilePopup.addEventListener("click", function (evt) {
   closeModalByPopup(evt, profilePopup, closeModal);
   clearValidation(editform, validationConfig);
 });
+profilePopup.addEventListener("keydown", function (evt) {
+  if (evt.key === "Escape") {
+    closeModal(profilePopup);
+    clearValidation(editform, validationConfig);
+  }
+});
 addCardPopup.addEventListener("click", function (evt) {
   closeModalByPopup(evt, addCardPopup, closeModal);
 });
