@@ -5,7 +5,7 @@ import { createCard, removeCard, likeCard } from "./components/card";
 import { closeModal, openModal, closeModalByPopup } from "./components/modal";
 import { enableValidation, clearValidation } from "./scripts/validation";
 
-const validationConfig = {
+export const validationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
@@ -99,13 +99,17 @@ function handleAddCardForm(evt) {
   }
 }
 
+function clearProfileFormValidation() {
+  clearValidation(editform, validationConfig);
+}
+
 // Слушатели событий на модальных окнах
 profilePopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, profilePopup, closeModal);
-  clearValidation(editform, validationConfig);
+  closeModalByPopup(evt, profilePopup, closeModal, clearProfileFormValidation);
 });
 profilePopup.addEventListener("keydown", function (evt) {
   if (evt.key === "Escape") {
+    console.log("edit esc");
     closeModal(profilePopup);
     clearValidation(editform, validationConfig);
   }
