@@ -4,4 +4,6 @@
   align-items: center;
   background: #fff;
   padding: 25px 20px;
+  max-height: 80px;
+  box-sizing: border-box;
 }

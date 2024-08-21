@@ -43,11 +43,13 @@ const cardLinkInput = addCardform.querySelector(".popup__input_type_url");
 // Кнопки для открытия модальных окон
 const profileBtn = document.querySelector(".profile__edit-button");
 const addCardBtn = document.querySelector(".profile__add-button");
+const updateAvatarBtn = document.querySelector(".profile__image-edit");
 
 // Модальные окна
 const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
 const imgPopup = document.querySelector(".popup.popup_type_image");
+const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
 
 // Открытие модального окна с изображением
 function openImgPopup(cardData) {
@@ -120,6 +122,9 @@ addCardPopup.addEventListener("click", function (evt) {
 imgPopup.addEventListener("click", function (evt) {
   closeModalByPopup(evt, imgPopup, closeModal);
 });
+avatarPopup.addEventListener("click", function (evt) {
+  closeModalByPopup(evt, avatarPopup, closeModal);
+});
 
 // Слушатель событий для открыти модального окна, редактированя профиля
 profileBtn.addEventListener("click", function () {
@@ -135,6 +140,10 @@ profileBtn.addEventListener("click", function () {
 // Слушатель событий для открыти модального окна, добавления карточки
 addCardBtn.addEventListener("click", function () {
   openModal(addCardPopup);
+});
+
+updateAvatarBtn.addEventListener("click", function () {
+  openModal(avatarPopup);
 });
 
 editform.addEventListener("submit", handleProfileEditForm);
