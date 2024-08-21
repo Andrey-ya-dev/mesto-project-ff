@@ -48,7 +48,7 @@ export const updateProfile = (name, about) => {
 };
 
 export const updateAvatar = (link) => {
-  return fetch(`${config.baseUrl}/users/me`, {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: Methods.patch,
     headers: config.headers,
     body: JSON.stringify({
@@ -68,7 +68,7 @@ export const addNewCard = (name, link) => {
   }).then(handleResponse);
 };
 
-export const removeCard = (cardId) => {
+export const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: Methods.remove,
     headers: config.headers,
