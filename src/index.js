@@ -1,9 +1,9 @@
 import "./pages/index.css";
 
-import { initialCards } from "./scripts/cards";
 import { createCard, removeCard, likeCard } from "./components/card";
 import { closeModal, openModal, closeModalByPopup } from "./components/modal";
 import { enableValidation, clearValidation } from "./scripts/validation";
+import { addNewCard, getInitialCards, getUser } from "./scripts/api";
 
 export const validationConfig = {
   formSelector: ".popup__form",
@@ -50,6 +50,10 @@ const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
 const imgPopup = document.querySelector(".popup.popup_type_image");
 const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
+
+function rejectResponse(err) {
+  console.log(err);
+}
 
 // Открытие модального окна с изображением
 function openImgPopup(cardData) {
@@ -98,6 +102,12 @@ function handleAddCardForm(evt) {
     closeModal(addCardPopup);
     addCardform.reset();
     clearValidation(addCardform, validationConfig);
+
+    addNewCard(cardNameValue, cardLinkValue)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch(rejectResponse);
   }
 }
 
@@ -146,16 +156,31 @@ updateAvatarBtn.addEventListener("click", function () {
 editform.addEventListener("submit", handleProfileEditForm);
 addCardform.addEventListener("submit", handleAddCardForm);
 
-// Вывод карточек на страницу
-initialCards.forEach((item) => {
-  const listItem = createCard(
-    item,
-    cardTemplate,
-    removeCard,
-    likeCard,
-    openImgPopup
-  );
-  cardList.append(listItem);
-});
+function renderAvatar(user) {
+  profileTitle.textContent = user.name;
+  profileDescription.textContent = user.about;
+  document.querySelector(
+    ".profile__image"
+  ).style.backgroundImage = `url("${user.avatar}")`;
+}
 
-enableValidation(validationConfig);
+// Вывод карточек на страницу
+document.addEventListener("DOMContentLoaded", function () {
+  enableValidation(validationConfig);
+
+  Promise.all([getUser(), getInitialCards()])
+    .then((data) => {
+      const [user, cardList] = data;
+
+      renderAvatar(user);
+
+      return cardList;
+    })
+    .then((cards) => {
+      cards.forEach((card) => {
+        const cardItem = createCard(card, cardTemplate);
+        cardList.append(cardItem);
+      });
+    })
+    .catch(rejectResponse);
+});

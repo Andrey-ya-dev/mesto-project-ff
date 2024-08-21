@@ -36,13 +36,13 @@ export const getInitialCards = () => {
   }).then(handleResponse);
 };
 
-export const updateProfile = (name, job) => {
+export const updateProfile = (name, about) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: Methods.patch,
     headers: config.headers,
     body: JSON.stringify({
       name,
-      job,
+      about,
     }),
   }).then(handleResponse);
 };
