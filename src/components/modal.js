@@ -17,21 +17,13 @@ export function closeModal(element) {
 }
 
 // Закрытие модального окна , клик по overlay и кнопке закрытия
-export function closeModalByPopup(evt, modalEl, closeFn, clearValidFn = null) {
+export function closeModalByPopup(evt, modalEl, closeFn) {
   if (evt.target === modalEl) {
     closeFn(modalEl);
-
-    if (clearValidFn) {
-      clearValidFn();
-    }
   }
 
   if (evt.target === modalEl.querySelector(".popup__close")) {
     closeFn(modalEl);
-
-    if (clearValidFn) {
-      clearValidFn();
-    }
   }
 }
 

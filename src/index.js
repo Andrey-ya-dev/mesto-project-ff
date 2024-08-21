@@ -71,8 +71,8 @@ function handleProfileEditForm(evt) {
     profileTitle.textContent = nameValue;
     profileDescription.textContent = jobValue;
 
-    closeModal(profilePopup);
     clearValidation(editform, validationConfig);
+    closeModal(profilePopup);
   }
 }
 
@@ -101,13 +101,9 @@ function handleAddCardForm(evt) {
   }
 }
 
-function clearProfileFormValidation() {
-  clearValidation(editform, validationConfig);
-}
-
 // Слушатели событий на модальных окнах
 profilePopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, profilePopup, closeModal, clearProfileFormValidation);
+  closeModalByPopup(evt, profilePopup, closeModal);
 });
 profilePopup.addEventListener("keydown", function (evt) {
   if (evt.key === "Escape") {
@@ -131,6 +127,7 @@ profileBtn.addEventListener("click", function () {
   const profileName = profileTitle.textContent;
   const profileJob = profileDescription.textContent;
 
+  clearValidation(editform, validationConfig);
   openModal(profilePopup);
 
   nameInput.value = profileName;
