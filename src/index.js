@@ -143,10 +143,10 @@ function handleAddCardForm(evt) {
   const cardLinkValue = cardLinkInput.value;
 
   if (cardLinkValue && cardNameValue) {
+    isLoading(true);
+
     addNewCard(cardNameValue, cardLinkValue)
       .then((newCardData) => {
-        isLoading(true);
-
         console.log(newCardData);
 
         const newCard = createCard(
@@ -154,7 +154,8 @@ function handleAddCardForm(evt) {
           cardTemplate,
           removeCard,
           likeCard,
-          openImgPopup
+          openImgPopup,
+          userId
         );
 
         cardList.insertAdjacentElement("afterbegin", newCard);

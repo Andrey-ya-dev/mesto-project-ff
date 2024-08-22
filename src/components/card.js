@@ -34,9 +34,14 @@ export function createCard(
 
     listItem.querySelector(".card__title").textContent = cardData.name;
 
-    removeBtn.addEventListener("click", function () {
-      removeFn(listItem, cardData);
-    });
+    if (cardData.owner._id === userId) {
+      removeBtn.addEventListener("click", function () {
+        removeFn(listItem, cardData);
+      });
+    } else {
+      removeBtn.remove();
+    }
+
     likeBtn.addEventListener("click", function () {
       likeFn(listItem, likeBtn, cardData);
     });
