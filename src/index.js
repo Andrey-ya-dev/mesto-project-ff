@@ -68,6 +68,14 @@ export function rejectResponse(err) {
   console.log(err);
 }
 
+function isLoading(loading) {
+  if (loading) {
+    addCardform.querySelector(".button").textContent = "Сохранение...";
+  } else {
+    addCardform.querySelector(".button").textContent = "Сохранить";
+  }
+}
+
 function renderAvatar(user) {
   userId = user._id;
 
@@ -89,12 +97,15 @@ function openImgPopup(cardData) {
 
 function handleEditAvatarForm(evt) {
   evt.preventDefault();
-  console.log(avatarInput.value);
+
   if (avatarInput.value) {
     updateAvatar(avatarInput.value)
       .then((avatarData) => {
         console.log(avatarData);
 
+        document.querySelector(
+          ".profile__image"
+        ).style.backgroundImage = `url("${avatarData.avatar}")`;
         closeModal(avatarPopup);
         editAvatarForm.reset();
       })
@@ -134,6 +145,8 @@ function handleAddCardForm(evt) {
   if (cardLinkValue && cardNameValue) {
     addNewCard(cardNameValue, cardLinkValue)
       .then((newCardData) => {
+        isLoading(true);
+
         console.log(newCardData);
 
         const newCard = createCard(
@@ -150,7 +163,10 @@ function handleAddCardForm(evt) {
         addCardform.reset();
         clearValidation(addCardform, validationConfig);
       })
-      .catch(rejectResponse);
+      .catch(rejectResponse)
+      .finally(() => {
+        isLoading(false);
+      });
   }
 }
 
