@@ -275,6 +275,8 @@ editAvatarForm.addEventListener("submit", handleEditAvatarForm);
 document.addEventListener("DOMContentLoaded", function () {
   enableValidation(validationConfig);
 
+  document.querySelector(".main-skeleton").classList.add("show-skeleton");
+
   Promise.all([getUser(), getInitialCards()])
     .then((data) => {
       const [user, cardList] = data;
@@ -296,5 +298,11 @@ document.addEventListener("DOMContentLoaded", function () {
         cardList.append(cardItem);
       });
     })
-    .catch(rejectResponse);
+    .catch(rejectResponse)
+    .finally(() => {
+      document
+        .querySelector(".main-skeleton")
+        .classList.remove("show-skeleton");
+      document.querySelector(".main-skeleton").classList.add("hidde-skeleton");
+    });
 });
