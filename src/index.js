@@ -5,6 +5,7 @@ import { closeModal, openModal, closeModalByPopup } from "./components/modal";
 import { enableValidation, clearValidation } from "./scripts/validation";
 import {
   addNewCard,
+  checkLinkForAvatar,
   getInitialCards,
   getUser,
   updateAvatar,
@@ -58,6 +59,46 @@ const profileBtn = document.querySelector(".profile__edit-button");
 const addCardBtn = document.querySelector(".profile__add-button");
 const updateAvatarBtn = document.querySelector(".profile__image-edit");
 
+const checkAva = document.querySelector(".m-btn");
+checkAva.addEventListener("click", function () {
+  if (avatarInput.value) {
+    imageExists(avatarInput.value)
+      .then((res) => console.log(res))
+      .catch(rejectResponse);
+    // let req = new XMLHttpRequest();
+    // req.open("HEAD", `${avatarInput.value}`, true);
+    // req.onreadystatechange = () => {
+    //   if (req.readyState === 4) {
+    //     if (req.status === 200) {
+    //       console.log("File exists");
+    //     } else {
+    //       console.log("File DOSE NOT exists");
+    //     }
+    //   }
+    // };
+    // req.send();
+    checkLinkForAvatar(avatarInput.value)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("HERE THIS");
+          console.log("res ->>> ", res);
+          console.log("res ->>> status", res.status);
+          console.log("res ->>> headers", res.headers.get("content-type"));
+        }
+      })
+      .catch(rejectResponse);
+  }
+});
+function imageExists(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.addEventListener("load", () => resolve(true));
+    img.addEventListener("error", () => resolve(false));
+    img.src = url;
+    console.log(img, "----IMG----");
+  });
+}
+
 // Модальные окна
 const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
@@ -65,14 +106,14 @@ const imgPopup = document.querySelector(".popup.popup_type_image");
 const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
 
 export function rejectResponse(err) {
-  console.log(err);
+  console.log("ReJeCtEd ===>", err);
 }
 
-function isLoading(loading) {
+function isLoading(loading, formEl) {
   if (loading) {
-    addCardform.querySelector(".button").textContent = "Сохранение...";
+    formEl.querySelector(".button").textContent = "Сохранение...";
   } else {
-    addCardform.querySelector(".button").textContent = "Сохранить";
+    formEl.querySelector(".button").textContent = "Сохранить";
   }
 }
 
@@ -99,6 +140,8 @@ function handleEditAvatarForm(evt) {
   evt.preventDefault();
 
   if (avatarInput.value) {
+    isLoading(true, editAvatarForm);
+
     updateAvatar(avatarInput.value)
       .then((avatarData) => {
         console.log(avatarData);
@@ -106,10 +149,15 @@ function handleEditAvatarForm(evt) {
         document.querySelector(
           ".profile__image"
         ).style.backgroundImage = `url("${avatarData.avatar}")`;
+
         closeModal(avatarPopup);
         editAvatarForm.reset();
+        clearValidation(editAvatarForm, validationConfig);
       })
-      .catch(rejectResponse);
+      .catch(rejectResponse)
+      .finally(() => {
+        isLoading(false, editAvatarForm);
+      });
   }
 }
 
@@ -121,6 +169,8 @@ function handleProfileEditForm(evt) {
   const nameValue = nameInput.value;
 
   if (jobValue && nameValue) {
+    isLoading(true, editform);
+
     updateProfile(nameValue, jobValue)
       .then((userData) => {
         console.log(userData);
@@ -128,10 +178,14 @@ function handleProfileEditForm(evt) {
         profileTitle.textContent = userData.name;
         profileDescription.textContent = userData.about;
 
-        clearValidation(editform, validationConfig);
         closeModal(profilePopup);
+        editform.reset();
+        clearValidation(editform, validationConfig);
       })
-      .catch(rejectResponse);
+      .catch(rejectResponse)
+      .finally(() => {
+        isLoading(false, editform);
+      });
   }
 }
 
@@ -143,7 +197,7 @@ function handleAddCardForm(evt) {
   const cardLinkValue = cardLinkInput.value;
 
   if (cardLinkValue && cardNameValue) {
-    isLoading(true);
+    isLoading(true, addCardform);
 
     addNewCard(cardNameValue, cardLinkValue)
       .then((newCardData) => {
@@ -166,7 +220,7 @@ function handleAddCardForm(evt) {
       })
       .catch(rejectResponse)
       .finally(() => {
-        isLoading(false);
+        isLoading(false, addCardform);
       });
   }
 }

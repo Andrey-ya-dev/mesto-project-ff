@@ -84,8 +84,8 @@ function clearValidation(formEl, validationConfig) {
   const inputList = Array.from(
     formEl.querySelectorAll(`${validationConfig.inputSelector}`)
   );
-  const btn = formEl.querySelector(`${validationConfig.submitButtonSelector}`);
 
+  const btn = formEl.querySelector(`${validationConfig.submitButtonSelector}`);
   toggleButtonState(inputList, btn, validationConfig.inactiveButtonClass);
 
   inputList.forEach((inputEl) => {

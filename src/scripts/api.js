@@ -12,6 +12,7 @@ const Methods = {
   put: "PUT", // Update_full
   patch: "PATCH", // Update
   remove: "DELETE", // Delete
+  head: "HEAD",
 };
 
 const handleResponse = (res) => {
@@ -55,6 +56,12 @@ export const updateAvatar = (link) => {
       avatar: link,
     }),
   }).then(handleResponse);
+};
+
+export const checkLinkForAvatar = (link) => {
+  return fetch(`${link}`, {
+    method: Methods.head,
+  });
 };
 
 export const addNewCard = (name, link) => {
