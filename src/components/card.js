@@ -52,16 +52,12 @@ export function createCard(
 
 // Удаление карточки
 export function removeCard(cardEl, cardData) {
-  const isDeleteIt = confirm("are you sure");
-
-  if (isDeleteIt) {
-    deleteCard(cardData._id)
-      .then((deletedCard) => {
-        console.log(deletedCard);
-        cardEl.remove();
-      })
-      .catch(rejectResponse);
-  }
+  deleteCard(cardData._id)
+    .then((deletedCard) => {
+      console.log(deletedCard);
+      cardEl.remove();
+    })
+    .catch(rejectResponse);
 }
 
 // Лайк карточки

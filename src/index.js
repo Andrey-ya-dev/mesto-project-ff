@@ -5,7 +5,6 @@ import { closeModal, openModal, closeModalByPopup } from "./components/modal";
 import { enableValidation, clearValidation } from "./scripts/validation";
 import {
   addNewCard,
-  checkLinkForAvatar,
   getInitialCards,
   getUser,
   updateAvatar,
@@ -63,35 +62,7 @@ const avatarInput = editAvatarForm.querySelector(".popup__input");
 const profileBtn = document.querySelector(".profile__edit-button");
 const addCardBtn = document.querySelector(".profile__add-button");
 const updateAvatarBtn = document.querySelector(".profile__image-edit");
-//******** */
-const checkAva = document.querySelector(".m-btn");
-checkAva.addEventListener("click", function () {
-  if (avatarInput.value) {
-    imageExists(avatarInput.value)
-      .then((res) => console.log(res))
-      .catch(rejectResponse);
-    checkLinkForAvatar(avatarInput.value)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log("HERE THIS");
-          console.log("res ->>> ", res);
-          console.log("res ->>> status", res.status);
-          console.log("res ->>> headers", res.headers.get("content-type"));
-        }
-      })
-      .catch(rejectResponse);
-  }
-});
-function imageExists(url) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.addEventListener("load", () => resolve(true));
-    img.addEventListener("error", () => resolve(false));
-    img.src = url;
-    console.log(img, "----IMG----");
-  });
-}
-//******** */
+
 // Модальные окна
 const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
@@ -100,7 +71,7 @@ const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
 
 // Ф-я ошибки запроса
 export function rejectResponse(err) {
-  console.log("ReJeCtEd ===>", err);
+  console.warn(err);
 }
 
 // Ф-я лоадера
@@ -139,8 +110,6 @@ function handleEditAvatarForm(evt) {
 
     updateAvatar(avatarInput.value)
       .then((avatarData) => {
-        console.log(avatarData);
-
         profileAvatar.style.backgroundImage = `url("${avatarData.avatar}")`;
 
         closeModal(avatarPopup);
@@ -166,8 +135,6 @@ function handleProfileEditForm(evt) {
 
     updateProfile(nameValue, jobValue)
       .then((userData) => {
-        console.log(userData);
-
         profileTitle.textContent = userData.name;
         profileDescription.textContent = userData.about;
 
@@ -194,8 +161,6 @@ function handleAddCardForm(evt) {
 
     addNewCard(cardNameValue, cardLinkValue)
       .then((newCardData) => {
-        console.log(newCardData);
-
         const newCard = createCard(
           newCardData,
           cardTemplate,
@@ -224,7 +189,6 @@ profilePopup.addEventListener("click", function (evt) {
 });
 profilePopup.addEventListener("keydown", function (evt) {
   if (evt.key === "Escape") {
-    console.log("edit esc");
     closeModal(profilePopup);
     clearValidation(editform, validationConfig);
   }
@@ -292,6 +256,5 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch(rejectResponse)
     .finally(() => {
       skeleton.classList.remove("show-skeleton");
-      skeleton.classList.add("hidde-skeleton");
     });
 });

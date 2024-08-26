@@ -3,6 +3,7 @@
   display: none;
   flex-direction: column;
   inset: 0;
+  z-index: -9999;
 }
 .main-skeleton .sk-header {
   min-height: 120px;
@@ -107,10 +108,6 @@
 .show-skeleton {
   display: flex;
   z-index: 9999;
-}
-.hidde-skeleton {
-  display: none;
-  z-index: -9999;
 }
 
 @media screen and (max-width: 1140px) {

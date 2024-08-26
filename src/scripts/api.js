@@ -58,12 +58,6 @@ export const updateAvatar = (link) => {
   }).then(handleResponse);
 };
 
-export const checkLinkForAvatar = (link) => {
-  return fetch(`${link}`, {
-    method: Methods.head,
-  });
-};
-
 export const addNewCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: Methods.post,
