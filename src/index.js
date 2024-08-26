@@ -30,10 +30,15 @@ const cardTemplate = document.querySelector("#card-template").content;
 // Список карточке, контейнер
 const cardList = document.querySelector(".places__list");
 
-// Профиль и техтовые поля в нем имя, занятия
+// Skeleton
+const skeleton = document.querySelector(".main-skeleton");
+
+// Профиль и текстовые поля в нем имя, занятия
 const profile = document.querySelector(".profile");
 const profileTitle = profile.querySelector(".profile__title");
 const profileDescription = profile.querySelector(".profile__description");
+// Аватар профиля
+const profileAvatar = profile.querySelector(".profile__image");
 
 // Форма для редактирования профиля и поля формы
 const editform = document.querySelector(".popup_type_edit .popup__form");
@@ -58,25 +63,13 @@ const avatarInput = editAvatarForm.querySelector(".popup__input");
 const profileBtn = document.querySelector(".profile__edit-button");
 const addCardBtn = document.querySelector(".profile__add-button");
 const updateAvatarBtn = document.querySelector(".profile__image-edit");
-
+//******** */
 const checkAva = document.querySelector(".m-btn");
 checkAva.addEventListener("click", function () {
   if (avatarInput.value) {
     imageExists(avatarInput.value)
       .then((res) => console.log(res))
       .catch(rejectResponse);
-    // let req = new XMLHttpRequest();
-    // req.open("HEAD", `${avatarInput.value}`, true);
-    // req.onreadystatechange = () => {
-    //   if (req.readyState === 4) {
-    //     if (req.status === 200) {
-    //       console.log("File exists");
-    //     } else {
-    //       console.log("File DOSE NOT exists");
-    //     }
-    //   }
-    // };
-    // req.send();
     checkLinkForAvatar(avatarInput.value)
       .then((res) => {
         if (res.status === 200) {
@@ -98,17 +91,19 @@ function imageExists(url) {
     console.log(img, "----IMG----");
   });
 }
-
+//******** */
 // Модальные окна
 const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
 const imgPopup = document.querySelector(".popup.popup_type_image");
 const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
 
+// Ф-я ошибки запроса
 export function rejectResponse(err) {
   console.log("ReJeCtEd ===>", err);
 }
 
+// Ф-я лоадера
 function isLoading(loading, formEl) {
   if (loading) {
     formEl.querySelector(".button").textContent = "Сохранение...";
@@ -117,14 +112,13 @@ function isLoading(loading, formEl) {
   }
 }
 
+// Ф-я отрисовки аватара
 function renderAvatar(user) {
   userId = user._id;
 
   profileTitle.textContent = user.name;
   profileDescription.textContent = user.about;
-  document.querySelector(
-    ".profile__image"
-  ).style.backgroundImage = `url("${user.avatar}")`;
+  profileAvatar.style.backgroundImage = `url("${user.avatar}")`;
 }
 
 // Открытие модального окна с изображением
@@ -136,6 +130,7 @@ function openImgPopup(cardData) {
   openModal(imgPopup);
 }
 
+// Слушатель на форму изменения аватара
 function handleEditAvatarForm(evt) {
   evt.preventDefault();
 
@@ -146,9 +141,7 @@ function handleEditAvatarForm(evt) {
       .then((avatarData) => {
         console.log(avatarData);
 
-        document.querySelector(
-          ".profile__image"
-        ).style.backgroundImage = `url("${avatarData.avatar}")`;
+        profileAvatar.style.backgroundImage = `url("${avatarData.avatar}")`;
 
         closeModal(avatarPopup);
         editAvatarForm.reset();
@@ -263,6 +256,7 @@ addCardBtn.addEventListener("click", function () {
   openModal(addCardPopup);
 });
 
+// Слушатель клика по аватару
 updateAvatarBtn.addEventListener("click", function () {
   openModal(avatarPopup);
 });
@@ -275,17 +269,14 @@ editAvatarForm.addEventListener("submit", handleEditAvatarForm);
 document.addEventListener("DOMContentLoaded", function () {
   enableValidation(validationConfig);
 
-  document.querySelector(".main-skeleton").classList.add("show-skeleton");
+  skeleton.classList.add("show-skeleton");
 
   Promise.all([getUser(), getInitialCards()])
     .then((data) => {
-      const [user, cardList] = data;
+      const [user, cards] = data;
 
       renderAvatar(user);
 
-      return cardList;
-    })
-    .then((cards) => {
       cards.forEach((card) => {
         const cardItem = createCard(
           card,
@@ -293,16 +284,14 @@ document.addEventListener("DOMContentLoaded", function () {
           removeCard,
           likeCard,
           openImgPopup,
-          userId
+          user._id
         );
         cardList.append(cardItem);
       });
     })
     .catch(rejectResponse)
     .finally(() => {
-      document
-        .querySelector(".main-skeleton")
-        .classList.remove("show-skeleton");
-      document.querySelector(".main-skeleton").classList.add("hidde-skeleton");
+      skeleton.classList.remove("show-skeleton");
+      skeleton.classList.add("hidde-skeleton");
     });
 });

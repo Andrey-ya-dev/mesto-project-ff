@@ -26,11 +26,19 @@
   background-color: rgba(0, 0, 0, 0.8);
   cursor: pointer;
   z-index: 100;
+
+  visibility: hidden;
   opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  transition: visibility 0s 0.6s, opacity 0.6s;
 }
 
 .profile__image:hover .profile__image-edit {
+  visibility: visible;
   opacity: 1;
+  pointer-events: all;
+  transition: visibility 0s, opacity 0.6s;
 }
 
 @media screen and (max-width: 740px) {

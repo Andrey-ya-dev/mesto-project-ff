@@ -51,7 +51,6 @@ function showInputErr(formEl, inputEl, validationConfig) {
     `#${[inputEl.id]}+${validationConfig.errorMessageSelector}`
   );
   inputEl.classList.add(`${validationConfig.inputErrorClass}`);
-  console.log(inputEl.validationMessage);
   errMsgEl.textContent = inputEl.validationMessage;
   errMsgEl.classList.add(`${validationConfig.errorClass}`);
 }
@@ -63,7 +62,6 @@ function hiddeInputErr(formEl, inputEl, validationConfig) {
   inputEl.classList.remove(`${validationConfig.inputErrorClass}`);
   errMsgEl.textContent = "";
   errMsgEl.classList.remove(`${validationConfig.errorClass}`);
-  console.log("hidde err");
 }
 
 function hasInvalidInput(inputList) {
