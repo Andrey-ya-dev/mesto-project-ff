@@ -1,14 +1,14 @@
-import { rejectResponse } from "..";
+import { rejectResponse, confirmPopup, cardIdForDelete } from "..";
 import { addLikeToCard, deleteCard, removeLikeToCard } from "../scripts/api";
 
 // Создание карточки
 export function createCard(
   cardData,
   template,
-  removeFn,
   likeFn,
   openImgPopupFn,
-  userId
+  userId,
+  getDataForDelete
 ) {
   if (template) {
     const listItem = template.querySelector(".card").cloneNode(true);
@@ -36,7 +36,7 @@ export function createCard(
 
     if (cardData.owner._id === userId) {
       removeBtn.addEventListener("click", function () {
-        removeFn(listItem, cardData);
+        getDataForDelete(cardData._id, listItem);
       });
     } else {
       removeBtn.remove();
@@ -51,10 +51,11 @@ export function createCard(
 }
 
 // Удаление карточки
-export function removeCard(cardEl, cardData) {
-  deleteCard(cardData._id)
+export function removeCard(cardEl, cardId) {
+  deleteCard(cardId)
     .then((deletedCard) => {
       console.log(deletedCard);
+
       cardEl.remove();
     })
     .catch(rejectResponse);

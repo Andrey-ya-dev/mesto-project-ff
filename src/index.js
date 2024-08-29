@@ -22,6 +22,7 @@ export const validationConfig = {
 };
 
 let userId = null;
+const infoAboutDeleteCard = {};
 
 // Темплейт карточки
 const cardTemplate = document.querySelector("#card-template").content;
@@ -68,19 +69,29 @@ const profilePopup = document.querySelector(".popup.popup_type_edit");
 const addCardPopup = document.querySelector(".popup.popup_type_new-card");
 const imgPopup = document.querySelector(".popup.popup_type_image");
 const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
+export const confirmPopup = document.querySelector(".popup.popup_type_delete");
+const confirmForm = confirmPopup.querySelector(".popup__form");
 
 // Ф-я ошибки запроса
 export function rejectResponse(err) {
   console.warn(err);
 }
 
-// Ф-я лоадера
+// Ф-я лоадера кнопок
 function isLoading(loading, formEl) {
   if (loading) {
     formEl.querySelector(".button").textContent = "Сохранение...";
   } else {
     formEl.querySelector(".button").textContent = "Сохранить";
   }
+}
+
+// ф-я получения инфо о карточки для удаления
+function getDataForDelete(cardId, cardEl) {
+  infoAboutDeleteCard.cardEl = cardEl;
+  infoAboutDeleteCard.cardId = cardId;
+
+  openModal(confirmPopup);
 }
 
 // Ф-я отрисовки аватара
@@ -164,10 +175,10 @@ function handleAddCardForm(evt) {
         const newCard = createCard(
           newCardData,
           cardTemplate,
-          removeCard,
           likeCard,
           openImgPopup,
-          userId
+          userId,
+          getDataForDelete
         );
 
         cardList.insertAdjacentElement("afterbegin", newCard);
@@ -181,6 +192,14 @@ function handleAddCardForm(evt) {
         isLoading(false, addCardform);
       });
   }
+}
+
+// Слушатель на форму подтверждения удаления карточки
+function handleConfirmForm(evt) {
+  evt.preventDefault();
+
+  removeCard(infoAboutDeleteCard.cardEl, infoAboutDeleteCard.cardId);
+  closeModal(confirmPopup);
 }
 
 // Слушатели событий на модальных окнах
@@ -201,6 +220,9 @@ imgPopup.addEventListener("click", function (evt) {
 });
 avatarPopup.addEventListener("click", function (evt) {
   closeModalByPopup(evt, avatarPopup, closeModal);
+});
+confirmPopup.addEventListener("click", function (evt) {
+  closeModalByPopup(evt, confirmPopup, closeModal);
 });
 
 // Слушатель событий для открыти модального окна, редактированя профиля
@@ -228,6 +250,7 @@ updateAvatarBtn.addEventListener("click", function () {
 editform.addEventListener("submit", handleProfileEditForm);
 addCardform.addEventListener("submit", handleAddCardForm);
 editAvatarForm.addEventListener("submit", handleEditAvatarForm);
+confirmForm.addEventListener("submit", handleConfirmForm);
 
 // Вывод карточек на страницу
 document.addEventListener("DOMContentLoaded", function () {
@@ -245,10 +268,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const cardItem = createCard(
           card,
           cardTemplate,
-          removeCard,
           likeCard,
           openImgPopup,
-          user._id
+          user._id,
+          getDataForDelete
         );
         cardList.append(cardItem);
       });
