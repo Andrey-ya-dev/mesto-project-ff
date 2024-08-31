@@ -10,6 +10,8 @@ import {
   updateAvatar,
   updateProfile,
   deleteCard,
+  removeLikeToCard,
+  addLikeToCard,
 } from "./components/api";
 
 export const validationConfig = {
@@ -104,6 +106,27 @@ function openImgPopup(cardData) {
   openModal(imgPopup);
 }
 
+// ф-я лайка карточки с запросом
+function likeCardToggle(cardData, cardEl, likeBtnEl) {
+  if (likeBtnEl.classList.contains("card__like-button_is-active")) {
+    removeLikeToCard(cardData._id)
+      .then((unLikedCard) => {
+        likeCard(cardEl, likeBtnEl, unLikedCard.likes.length);
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  } else {
+    addLikeToCard(cardData._id)
+      .then((likedCard) => {
+        likeCard(cardEl, likeBtnEl, likedCard.likes.length);
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+  }
+}
+
 // Слушатель на форму изменения аватара
 function handleEditAvatarForm(evt) {
   evt.preventDefault();
@@ -163,7 +186,7 @@ function handleAddCardForm(evt) {
       const newCard = createCard(
         newCardData,
         cardTemplate,
-        likeCard,
+        likeCardToggle,
         openImgPopup,
         newCardData.owner._id,
         getDataForDelete
@@ -261,7 +284,7 @@ function init() {
         const cardItem = createCard(
           card,
           cardTemplate,
-          likeCard,
+          likeCardToggle,
           openImgPopup,
           user._id,
           getDataForDelete

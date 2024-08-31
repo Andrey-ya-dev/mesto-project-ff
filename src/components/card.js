@@ -1,5 +1,3 @@
-import { addLikeToCard, removeLikeToCard } from "./api";
-
 // Создание карточки
 export function createCard(
   cardData,
@@ -42,7 +40,7 @@ export function createCard(
     }
 
     likeBtn.addEventListener("click", function () {
-      likeFn(listItem, likeBtn, cardData);
+      likeFn(cardData, listItem, likeBtn);
     });
 
     return listItem;
@@ -57,26 +55,9 @@ export function removeCard(cardEl) {
 }
 
 // Лайк карточки
-export function likeCard(cardEl, likeBtnEl, cardData) {
-  if (likeBtnEl.classList.contains("card__like-button_is-active")) {
-    removeLikeToCard(cardData._id)
-      .then((unLikedCard) => {
-        likeBtnEl.classList.remove("card__like-button_is-active");
-        cardEl.querySelector(".card__like-count").textContent =
-          unLikedCard.likes.length;
-      })
-      .catch((err) => {
-        console.warn(err);
-      });
-  } else {
-    addLikeToCard(cardData._id)
-      .then((likedCard) => {
-        likeBtnEl.classList.add("card__like-button_is-active");
-        cardEl.querySelector(".card__like-count").textContent =
-          likedCard.likes.length;
-      })
-      .catch((err) => {
-        console.warn(err);
-      });
+export function likeCard(cardEl, likeBtnEl, likeCount) {
+  if (cardEl) {
+    cardEl.querySelector(".card__like-count").textContent = likeCount;
+    likeBtnEl.classList.toggle("card__like-button_is-active");
   }
 }
