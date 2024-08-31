@@ -1,5 +1,4 @@
-import { rejectResponse } from "..";
-import { addLikeToCard, deleteCard, removeLikeToCard } from "../scripts/api";
+import { addLikeToCard, removeLikeToCard } from "./api";
 
 // Создание карточки
 export function createCard(
@@ -51,14 +50,10 @@ export function createCard(
 }
 
 // Удаление карточки
-export function removeCard(cardEl, cardId) {
-  deleteCard(cardId)
-    .then((deletedCard) => {
-      console.log(deletedCard);
-
-      cardEl.remove();
-    })
-    .catch(rejectResponse);
+export function removeCard(cardEl) {
+  if (cardEl) {
+    cardEl.remove();
+  }
 }
 
 // Лайк карточки
@@ -70,7 +65,9 @@ export function likeCard(cardEl, likeBtnEl, cardData) {
         cardEl.querySelector(".card__like-count").textContent =
           unLikedCard.likes.length;
       })
-      .catch(rejectResponse);
+      .catch((err) => {
+        console.warn(err);
+      });
   } else {
     addLikeToCard(cardData._id)
       .then((likedCard) => {
@@ -78,6 +75,8 @@ export function likeCard(cardEl, likeBtnEl, cardData) {
         cardEl.querySelector(".card__like-count").textContent =
           likedCard.likes.length;
       })
-      .catch(rejectResponse);
+      .catch((err) => {
+        console.warn(err);
+      });
   }
 }

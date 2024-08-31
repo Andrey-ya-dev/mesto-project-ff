@@ -11,30 +11,7 @@
 
 <body class="page">
   <div class="page__content">
-    <div class="main-skeleton">
-      <div class="sk-header">
-        <div class="sk-img"></div>
-      </div>
-      <div class="sk-main">
-        <div class="sk-section">
-          <div class="sk-section-profile-img  skeleton"></div>
-          <div class="sk-section-profile-info">
-            <div class="sk-profile-title  skeleton"></div>
-            <div class="sk-profile-about  skeleton"></div>
-          </div>
-        </div>
-        <div class="sk-place">
-          <div class="sk-list">
-            <div class="sk-list-item skeleton"></div>
-            <div class="sk-list-item skeleton"></div>
-            <div class="sk-list-item skeleton"></div>
-            <div class="sk-list-item skeleton"></div>
-            <div class="sk-list-item skeleton"></div>
-            <div class="sk-list-item skeleton"></div>
-          </div>
-        </div>
-      </div>
-    </div>
+
     <header class="header page__section">
       <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта масто" class="logo header__logo">
     </header>
@@ -145,10 +122,35 @@
           </button>
           <span class="card__like-count">0</span>
         </div>
-
       </div>
     </li>
   </template>
+
+  <!-- Согласно семантики подобные блоки прелодеров нужно разместить после секции footer, там, где у вас находятся модальные окна и темплейты -->
+  <div class="main-skeleton">
+    <div class="sk-header">
+      <div class="sk-img"></div>
+    </div>
+    <div class="sk-main">
+      <div class="sk-section">
+        <div class="sk-section-profile-img  skeleton"></div>
+        <div class="sk-section-profile-info">
+          <div class="sk-profile-title  skeleton"></div>
+          <div class="sk-profile-about  skeleton"></div>
+        </div>
+      </div>
+      <div class="sk-place">
+        <div class="sk-list">
+          <div class="sk-list-item skeleton"></div>
+          <div class="sk-list-item skeleton"></div>
+          <div class="sk-list-item skeleton"></div>
+          <div class="sk-list-item skeleton"></div>
+          <div class="sk-list-item skeleton"></div>
+          <div class="sk-list-item skeleton"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

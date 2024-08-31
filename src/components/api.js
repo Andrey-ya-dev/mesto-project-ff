@@ -1,3 +1,4 @@
+// Модуль api, как и модуль validation, необходимо перенести в components, они так-же являются компонентами
 const config = {
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-21",
   headers: {
@@ -5,8 +6,8 @@ const config = {
     "Content-Type": "application/json",
   },
 };
-
-const Methods = {
+//Переменные необходимо называть с маленькой буквы
+const methods = {
   post: "POST", // Create
   get: "GET", // Read
   put: "PUT", // Update_full
@@ -25,21 +26,21 @@ const handleResponse = (res) => {
 
 export const getUser = () => {
   return fetch(`${config.baseUrl}/users/me`, {
-    method: Methods.get,
+    method: methods.get,
     headers: config.headers,
   }).then(handleResponse);
 };
 
 export const getInitialCards = () => {
   return fetch(`${config.baseUrl}/cards`, {
-    method: Methods.get,
+    method: methods.get,
     headers: config.headers,
   }).then(handleResponse);
 };
 
 export const updateProfile = (name, about) => {
   return fetch(`${config.baseUrl}/users/me`, {
-    method: Methods.patch,
+    method: methods.patch,
     headers: config.headers,
     body: JSON.stringify({
       name,
@@ -50,7 +51,7 @@ export const updateProfile = (name, about) => {
 
 export const updateAvatar = (link) => {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
-    method: Methods.patch,
+    method: methods.patch,
     headers: config.headers,
     body: JSON.stringify({
       avatar: link,
@@ -60,7 +61,7 @@ export const updateAvatar = (link) => {
 
 export const addNewCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
-    method: Methods.post,
+    method: methods.post,
     headers: config.headers,
     body: JSON.stringify({
       name,
@@ -71,21 +72,21 @@ export const addNewCard = (name, link) => {
 
 export const deleteCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
-    method: Methods.remove,
+    method: methods.remove,
     headers: config.headers,
   }).then(handleResponse);
 };
 
 export const addLikeToCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-    method: Methods.put,
+    method: methods.put,
     headers: config.headers,
   }).then(handleResponse);
 };
 
 export const removeLikeToCard = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
-    method: Methods.remove,
+    method: methods.remove,
     headers: config.headers,
   }).then(handleResponse);
 };
