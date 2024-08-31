@@ -1,4 +1,3 @@
-// Модуль api, как и модуль validation, необходимо перенести в components, они так-же являются компонентами
 const config = {
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-21",
   headers: {
@@ -6,7 +5,7 @@ const config = {
     "Content-Type": "application/json",
   },
 };
-//Переменные необходимо называть с маленькой буквы
+
 const methods = {
   post: "POST", // Create
   get: "GET", // Read
