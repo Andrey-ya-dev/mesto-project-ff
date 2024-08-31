@@ -1,4 +1,4 @@
-import { rejectResponse } from "..";
+import { rejectResponse, confirmPopup, cardIdForDelete } from "..";
 import { addLikeToCard, deleteCard, removeLikeToCard } from "../scripts/api";
 
 // Создание карточки
