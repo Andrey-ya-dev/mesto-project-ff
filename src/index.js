@@ -1,7 +1,7 @@
 import "./pages/index.css";
 
 import { createCard, removeCard, likeCard } from "./components/card";
-import { closeModal, openModal, closeModalByPopup } from "./components/modal";
+import { closeModal, openModal } from "./components/modal";
 import { enableValidation, clearValidation } from "./components/validation";
 import {
   addNewCard,
@@ -73,6 +73,9 @@ const imgPopup = document.querySelector(".popup.popup_type_image");
 const avatarPopup = document.querySelector(".popup.popup_type_edit-avatar");
 const confirmPopup = document.querySelector(".popup.popup_type_delete");
 const confirmForm = confirmPopup.querySelector(".popup__form");
+
+// Колл-ция модалок
+const popups = document.querySelectorAll(".popup");
 
 // Ф-я лоадера кнопок
 function isLoading(loading, formEl) {
@@ -222,33 +225,13 @@ function handleConfirmForm(evt) {
     });
 }
 
-// Слушатели событий на модальных окнах
-profilePopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, profilePopup, closeModal);
-});
-addCardPopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, addCardPopup, closeModal);
-});
-imgPopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, imgPopup, closeModal);
-});
-avatarPopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, avatarPopup, closeModal);
-});
-confirmPopup.addEventListener("click", function (evt) {
-  closeModalByPopup(evt, confirmPopup, closeModal);
-});
-
 // Слушатель событий для открыти модального окна, редактированя профиля
 profileBtn.addEventListener("click", function () {
-  const profileName = profileTitle.textContent;
-  const profileJob = profileDescription.textContent;
-
   clearValidation(editform, validationConfig);
   openModal(profilePopup);
 
-  nameInput.value = profileName;
-  jobInput.value = profileJob;
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileDescription.textContent;
 });
 
 // Слушатель событий для открыти модального окна, добавления карточки
@@ -261,6 +244,22 @@ addCardBtn.addEventListener("click", function () {
 updateAvatarBtn.addEventListener("click", function () {
   clearValidation(editAvatarForm, validationConfig);
   openModal(avatarPopup);
+});
+
+// Слушатели на закрытие модалок, кнопка/оверлей
+popups.forEach((popup) => {
+  const closeBtn = popup.querySelector(".popup__close");
+  closeBtn.addEventListener("click", function () {
+    closeModal(popup);
+  });
+
+  popup.addEventListener("mousedown", function (evt) {
+    if (evt.target === evt.currentTarget) {
+      closeModal(popup);
+    }
+  });
+
+  popup.classList.add("popup_is-animated");
 });
 
 editform.addEventListener("submit", handleProfileEditForm);

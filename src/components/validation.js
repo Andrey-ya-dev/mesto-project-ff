@@ -4,12 +4,6 @@ function enableValidation(validationConfig) {
   );
 
   formList.forEach((formEl) => {
-    // Обработка сабмита формы у вас прописана в index.js
-    // Дублировать обработчик здесь не нужно
-    // formEl.addEventListener("submit", function (evt) {
-    //   evt.preventDefault();
-    // });
-
     setEventListeners(formEl, validationConfig);
   });
 }

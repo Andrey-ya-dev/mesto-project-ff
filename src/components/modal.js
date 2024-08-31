@@ -16,17 +16,6 @@ export function closeModal(element) {
   }
 }
 
-// Закрытие модального окна , клик по overlay и кнопке закрытия
-export function closeModalByPopup(evt, modalEl, closeFn) {
-  if (evt.target === modalEl) {
-    closeFn(modalEl);
-  }
-
-  if (evt.target === modalEl.querySelector(".popup__close")) {
-    closeFn(modalEl);
-  }
-}
-
 // Закрыть модальное окно , кнопка ескейп
 function closeModalByKeyboard(evt) {
   if (evt.key === "Escape") {
