@@ -45,5 +45,6 @@ module.exports = {
       directory: path.join(__dirname, "dist"),
     },
     compress: true,
+    open: true,
   },
 };
