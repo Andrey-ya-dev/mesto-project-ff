@@ -61,3 +61,8 @@ export function likeCard(cardEl, likeBtnEl, likeCount) {
     likeBtnEl.classList.toggle("card__like-button_is-active");
   }
 }
+
+// Проверка лайкнута ли карточка?
+export function checkIsLikedCard(likeBtnEl) {
+  return likeBtnEl.classList.contains("card__like-button_is-active");
+}

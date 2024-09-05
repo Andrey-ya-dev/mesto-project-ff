@@ -1,6 +1,11 @@
 import "./pages/index.css";
 
-import { createCard, removeCard, likeCard } from "./components/card";
+import {
+  createCard,
+  removeCard,
+  likeCard,
+  checkIsLikedCard,
+} from "./components/card";
 import { closeModal, openModal } from "./components/modal";
 import { enableValidation, clearValidation } from "./components/validation";
 import {
@@ -111,7 +116,7 @@ function openImgPopup(cardData) {
 
 // ф-я лайка карточки с запросом
 function likeCardToggle(cardData, cardEl, likeBtnEl) {
-  if (likeBtnEl.classList.contains("card__like-button_is-active")) {
+  if (checkIsLikedCard(likeBtnEl)) {
     removeLikeToCard(cardData._id)
       .then((unLikedCard) => {
         likeCard(cardEl, likeBtnEl, unLikedCard.likes.length);
@@ -138,7 +143,7 @@ function handleEditAvatarForm(evt) {
 
   updateAvatar(avatarInput.value)
     .then((avatarData) => {
-      profileAvatar.style.backgroundImage = `url("${avatarData.avatar}")`;
+      renderAvatar(avatarData);
 
       closeModal(avatarPopup);
       editAvatarForm.reset();
