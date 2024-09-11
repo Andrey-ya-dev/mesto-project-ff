@@ -14,6 +14,44 @@
   opacity: 0;
 }
 
+.popup__icon-check-url {
+  background-image: url("../../../images/succes-icon.svg");
+  width: 27px;
+  height: 27px;
+  display: block;
+  position: absolute;
+  left: 45%;
+  bottom: -38px;
+}
+
+.popup__action-message {
+  position: fixed;
+  box-sizing: border-box;
+  left: 16px;
+  bottom: 30px;
+  min-height: 46px;
+  min-width: 145px;
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 11111;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 14px;
+}
+
+.popup__action-message-text {
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 14px;
+}
+.popup__action-message-icon {
+  background-image: url("../../../images/succes-icon.svg");
+  width: 27px;
+  height: 27px;
+}
+
 .popup__error_visible {
   opacity: 1;
 }

@@ -11,7 +11,10 @@
 
 <body class="page">
   <div class="page__content">
-
+    <div class="popup__action-message">
+      <span class="popup__action-message-text">Аватар обновлен</span>
+      <span class="popup__action-message-icon"></span>
+    </div>
     <header class="header page__section">
       <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта масто" class="logo header__logo">
     </header>
@@ -67,6 +70,7 @@
             <input id="link-avatar" type="url" name="link-avatar" class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку" required>
             <span class="popup__err-msg"></span>
+            <span class="popup__icon-check-url"></span>
           </label>
           <button type="submit" class="button popup__button">Сохранить</button>
         </form>

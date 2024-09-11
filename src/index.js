@@ -114,6 +114,16 @@ function openImgPopup(cardData) {
   openModal(imgPopup);
 }
 
+//
+function checkImgUrl(inputValue) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.addEventListener("load", () => resolve(true));
+    img.addEventListener("error", () => resolve(false));
+    img.src = inputValue;
+  });
+}
+
 // ф-я лайка карточки с запросом
 function likeCardToggle(cardData, cardEl, likeBtnEl) {
   if (checkIsLikedCard(likeBtnEl)) {
@@ -143,13 +153,15 @@ function handleEditAvatarForm(evt) {
 
   updateAvatar(avatarInput.value)
     .then((avatarData) => {
+      console.log("avatar data ", avatarData);
+      const msg = "Аватар обновлен";
       renderAvatar(avatarData);
 
       closeModal(avatarPopup);
       editAvatarForm.reset();
     })
     .catch((err) => {
-      console.warn(err);
+      console.warn("Ошибка обновления аватара", err);
     })
     .finally(() => {
       isLoading(false, editAvatarForm);
@@ -173,7 +185,7 @@ function handleProfileEditForm(evt) {
       editform.reset();
     })
     .catch((err) => {
-      console.warn(err);
+      console.warn("Ошибка обновления профиля", err);
     })
     .finally(() => {
       isLoading(false, editform);
@@ -206,7 +218,7 @@ function handleAddCardForm(evt) {
       addCardform.reset();
     })
     .catch((err) => {
-      console.warn(err);
+      console.warn("Ошибка добавления карточки", err);
     })
     .finally(() => {
       isLoading(false, addCardform);
@@ -297,7 +309,7 @@ function init() {
       });
     })
     .catch((err) => {
-      console.warn(err);
+      console.warn("Ошибка загрузки Promise all", err);
     })
     .finally(() => {
       skeleton.classList.remove("show-skeleton");
