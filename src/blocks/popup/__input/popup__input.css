@@ -27,7 +27,7 @@
 .popup__action-message {
   position: fixed;
   box-sizing: border-box;
-  left: 16px;
+  left: 46px;
   bottom: 30px;
   min-height: 46px;
   min-width: 145px;
@@ -35,7 +35,7 @@
   border-radius: 10px;
   z-index: 11111;
 
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
@@ -66,6 +66,7 @@
   box-sizing: border-box;
   padding: 10px 0 0;
   margin-bottom: 10px;
+  padding: 8px;
 }
 
 .popup__input:last-of-type,

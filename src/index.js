@@ -62,7 +62,7 @@ const cardNameInput = addCardform.querySelector(".popup__input_type_card-name");
 const cardLinkInput = addCardform.querySelector(".popup__input_type_url");
 
 const editAvatarForm = document.querySelector(
-  ".popup_type_edit-avatar .popup__form"
+  ".popup_type_edit-avatar .popup__form",
 );
 const avatarInput = editAvatarForm.querySelector(".popup__input");
 
@@ -70,6 +70,9 @@ const avatarInput = editAvatarForm.querySelector(".popup__input");
 const profileBtn = document.querySelector(".profile__edit-button");
 const addCardBtn = document.querySelector(".profile__add-button");
 const updateAvatarBtn = document.querySelector(".profile__image-edit");
+//
+const msgBlock = document.querySelector(".popup__action-message");
+const successMsg = document.querySelector(".popup__action-message-text");
 
 // Модальные окна
 const profilePopup = document.querySelector(".popup.popup_type_edit");
@@ -81,6 +84,19 @@ const confirmForm = confirmPopup.querySelector(".popup__form");
 
 // Колл-ция модалок
 const popups = document.querySelectorAll(".popup");
+
+//
+function delay() {
+  setTimeout(() => {
+    msgBlock.style.display = "flex";
+    const msg = "Аватар обновлен!";
+    successMsg.textContent = msg;
+    setTimeout(() => {
+      msgBlock.style.display = "none";
+      successMsg.textContent = "";
+    }, 1000);
+  }, 200);
+}
 
 // Ф-я лоадера кнопок
 function isLoading(loading, formEl) {
@@ -154,7 +170,7 @@ function handleEditAvatarForm(evt) {
   updateAvatar(avatarInput.value)
     .then((avatarData) => {
       console.log("avatar data ", avatarData);
-      const msg = "Аватар обновлен";
+      delay();
       renderAvatar(avatarData);
 
       closeModal(avatarPopup);
@@ -209,7 +225,7 @@ function handleAddCardForm(evt) {
         likeCardToggle,
         openImgPopup,
         newCardData.owner._id,
-        getDataForDelete
+        getDataForDelete,
       );
 
       cardList.insertAdjacentElement("afterbegin", newCard);
@@ -303,7 +319,7 @@ function init() {
           likeCardToggle,
           openImgPopup,
           user._id,
-          getDataForDelete
+          getDataForDelete,
         );
         cardList.append(cardItem);
       });
@@ -317,3 +333,6 @@ function init() {
 }
 
 init();
+
+// https://img.freepik.com/premium-photo/open-book-table-with-bunch-grapes_956369-4305.jpg?semt=ais_hybrid&w=740
+//https://img.freepik.com/premium-psd/toy-lego-character-with-glasses-hat-his-head_975163-685.jpg?semt=ais_hybrid&w=740
