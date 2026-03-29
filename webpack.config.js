@@ -1,8 +1,15 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { fileURLToPath } from "node:url";
 
-module.exports = {
+// In Node.js versions prior to native support for import.meta.dirname,
+// derive __dirname from import.meta.url.
+// (Node 20.11+ supports import.meta.dirname and import.meta.filename.)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
   mode: "development",
   entry: path.resolve(__dirname, "src", "index.js"),
   output: {
